@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,10 @@ namespace ProjectSample.EF.Entities
         public decimal Height { get; set; }
         public float Weight { get; set; }
 
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
         public Grade Grade { get; set; }
     }
+
+
 }
