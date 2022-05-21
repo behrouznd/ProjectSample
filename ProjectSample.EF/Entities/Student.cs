@@ -9,6 +9,8 @@ namespace ProjectSample.EF.Entities
     public class Student
     {
         public int StudentID { get; set; }
+
+        [ConcurrencyCheck]
         public string StudentName { get; set; }
         public DateTime? DateOfBirth { get; set; }
         public byte[] Photo { get; set; }

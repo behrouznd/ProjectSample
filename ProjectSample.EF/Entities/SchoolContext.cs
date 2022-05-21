@@ -28,6 +28,20 @@ namespace ProjectSample.EF.Entities
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            ////modelBuilder.HasDefaultSchema("admin");
+
+            ////modelBuilder.Entity<Teacher>().ToTable("Teacher", "dbo");
+
+            //modelBuilder.Entity<Student>().Map(m =>
+            //{
+            //    m.Properties(p => new { p.StudentID, p.StudentName });
+            //    m.ToTable("StudentInfo");
+            //}).Map(m => {
+            //    m.Properties(p => new { p.StudentID, p.Height, p.Weight, p.Photo, p.DateOfBirth });
+            //    m.ToTable("StudentInfoDetail");
+            //});
+
+
             modelBuilder.Entity<BillingDetail>()
                 .Map<BankAccount>(m => m.Requires("BillingDetailType").HasValue("BA"))
                 .Map<CreditCard>(m => m.Requires("BillingDetailType").HasValue("CC"));
@@ -46,6 +60,8 @@ namespace ProjectSample.EF.Entities
             //        m.ToTable("CreditCard");
             //    });
 
+
+            //modelBuilder.Entity<Course>().Property(s => s.CreatedDate).HasDefaultValueSql("GETDATE()");
         }
     }
 

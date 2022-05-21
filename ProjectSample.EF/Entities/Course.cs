@@ -16,6 +16,9 @@ namespace ProjectSample.EF.Entities
         [StringLength(100)]
         public string Description { get; set; }
 
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public DateTime CreatedDate { get; set; }
+
         [ForeignKey("OnlineTeacher")]
         public int? OnlineTeacherId { get; set; }
         public Teacher OnlineTeacher { get; set; }
