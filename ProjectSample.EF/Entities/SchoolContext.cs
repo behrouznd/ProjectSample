@@ -89,9 +89,18 @@ namespace ProjectSample.EF.Entities
                 .Property(p => p.StudentName)
                 .IsConcurrencyToken();
 
+            modelBuilder.Entity<Student>()
+                .Property(p => p.RowVersion)
+                .IsRowVersion();
             //---------------------------------------------------------------------
+            //Configure a One-to-Zero-or-One relationship using Fluent API
+            modelBuilder.Entity<Student>()
+                .HasOptional(s => s.Address) // Mark Address property optional in Student entity
+                .WithRequired(s => s.Student);// mark Student property as required in StudentAddress entity. Cannot save StudentAddress without Student
+                
+                // .WithRequiredPrincipal(ad => ad.Student); // One-to-One relationship
 
-
+            //---------------------------------------------------------------------
             //modelBuilder.Entity<BankAccount>()
             //    .Map(m =>
             //    {

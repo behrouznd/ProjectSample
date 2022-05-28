@@ -20,7 +20,9 @@ namespace ProjectSample.EF.Entities
         [Timestamp]
         public byte[] RowVersion { get; set; }
         public Grade Grade { get; set; }
-    }
 
+
+        public virtual StudentAddress Address { get; set; }
+    }
 
 }
