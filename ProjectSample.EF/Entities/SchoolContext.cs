@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -41,10 +42,55 @@ namespace ProjectSample.EF.Entities
             //    m.ToTable("StudentInfoDetail");
             //});
 
+            //--------------------------------------------------------------
+            modelBuilder.Entity<Student>().Map(delegate (EntityMappingConfiguration<Student> studentConfig)
+                {
+                    studentConfig.Properties(p => new { p.StudentID, p.StudentName });
+                    studentConfig.ToTable("StudentInfo");
+                }
+            );
+
+            Action<EntityMappingConfiguration<Student>> studentMapping = m =>
+            {
+                m.Properties(p => new { p.StudentID, p.Height, p.Weight, p.Photo, p.DateOfBirth });
+                m.ToTable("StudentInfoDetail");
+            };
 
             modelBuilder.Entity<BillingDetail>()
                 .Map<BankAccount>(m => m.Requires("BillingDetailType").HasValue("BA"))
                 .Map<CreditCard>(m => m.Requires("BillingDetailType").HasValue("CC"));
+
+            modelBuilder.Entity<Student>().Map(studentMapping);
+            //---------------------------------------------------------------------
+            modelBuilder.Entity<Student>().HasKey<int>(s => s.StudentID);
+            //---------------------------------------------------------------------
+            modelBuilder.Entity<Student>()
+                .Property(p => p.DateOfBirth)
+                .HasColumnName("DoB")
+                .HasColumnOrder(3)
+                .HasColumnType("datatime2")
+                .IsOptional();
+
+            modelBuilder.Entity<Student>()
+                .Property(p => p.Weight)
+                .IsRequired();
+
+            //IsFixedLength() change datatype from nvarchar to nchar
+            modelBuilder.Entity<Student>()
+                .Property(p => p.StudentName)
+                .HasMaxLength(50)
+                .IsFixedLength();
+
+            modelBuilder.Entity<Student>()
+                .Property(p => p.Height)
+                .HasPrecision(2, 2);
+
+            modelBuilder.Entity<Student>()
+                .Property(p => p.StudentName)
+                .IsConcurrencyToken();
+
+            //---------------------------------------------------------------------
+
 
             //modelBuilder.Entity<BankAccount>()
             //    .Map(m =>
