@@ -136,7 +136,8 @@ namespace ProjectSample.EF.Entities
                 .Delete(sp => sp.HasName("sp_DeleteTeacher").Parameter(pm => pm.Name, "name"))
                 );
             //---------------------------------------------------------------------
-
+            // Move Fluent API Configurations to a Separate Class
+            modelBuilder.Configurations.Add(new TeacherEntityConfiguration());
 
 
 
