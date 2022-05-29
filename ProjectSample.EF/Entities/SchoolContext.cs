@@ -164,6 +164,14 @@ namespace ProjectSample.EF.Entities
     {
         protected override void Seed(SchoolContext context)
         {
+
+            //--Seed Data
+            IList<Grade> defaultGrades = new List<Grade>();
+            defaultGrades.Add(new Grade() { GradeName = "Grade 1", Section = "Section 1" });
+            defaultGrades.Add(new Grade() { GradeName = "Grade 2", Section = "Section 2" });
+            context.Grades.AddRange(defaultGrades);
+            //-----------
+
             base.Seed(context);
         }
     }
