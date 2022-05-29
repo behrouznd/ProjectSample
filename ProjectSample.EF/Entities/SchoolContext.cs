@@ -97,10 +97,40 @@ namespace ProjectSample.EF.Entities
             modelBuilder.Entity<Student>()
                 .HasOptional(s => s.Address) // Mark Address property optional in Student entity
                 .WithRequired(s => s.Student);// mark Student property as required in StudentAddress entity. Cannot save StudentAddress without Student
-                
-                // .WithRequiredPrincipal(ad => ad.Student); // One-to-One relationship
+
+            // .WithRequiredPrincipal(ad => ad.Student); // One-to-One relationship
 
             //---------------------------------------------------------------------
+            // Configure a One-to-Many Relationship using Fluent API
+            modelBuilder.Entity<Student>()
+                .HasRequired<Grade>(s => s.Grade)
+                .WithMany(g => g.Students)
+                .HasForeignKey<int>(s => s.GradeId)
+                .WillCascadeOnDelete(); // automatically deleting child rows when the related parent row is deleted
+
+            // Alternatively:
+            modelBuilder.Entity<Grade>()
+                .HasMany<Student>(s => s.Students)
+                .WithRequired(s => s.Grade)
+                .HasForeignKey<int>(s => s.GradeId);
+
+            //---------------------------------------------------------------------
+            //Configure a Many-to-Many Relationship
+            modelBuilder.Entity<Student>()
+                .HasMany<Course>(s => s.Courses)
+                .WithMany(c => c.Students)
+                .Map(cs =>
+                {
+                    cs.MapLeftKey("StudentRefId");
+                    cs.MapRightKey("CourdeRefId");
+                    cs.ToTable("StudentCourse");
+                });
+
+            //---------------------------------------------------------------------
+
+
+
+
             //modelBuilder.Entity<BankAccount>()
             //    .Map(m =>
             //    {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -26,5 +27,8 @@ namespace ProjectSample.EF.Entities
         [ForeignKey("ClassRoomTeacher")]
         public int? ClassRoomTeacherId { get; set; }
         public Teacher ClassRoomTeacher { get; set; }
+
+        public virtual ICollection<Student> Students { get; set; }
+
     }
 }
