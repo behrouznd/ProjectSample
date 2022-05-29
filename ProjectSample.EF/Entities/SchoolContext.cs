@@ -138,6 +138,9 @@ namespace ProjectSample.EF.Entities
             //---------------------------------------------------------------------
             // Move Fluent API Configurations to a Separate Class
             modelBuilder.Configurations.Add(new TeacherEntityConfiguration());
+            //------------------------------------------------
+            //Define Custom Code - First Conventions
+            modelBuilder.Properties().Where(p => p.PropertyType.Name == "String").Configure(p => p.HasMaxLength(50));
 
 
 
