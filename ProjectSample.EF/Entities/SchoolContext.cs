@@ -127,6 +127,15 @@ namespace ProjectSample.EF.Entities
                 });
 
             //---------------------------------------------------------------------
+            //CUD Operations using Stored Procedures
+            modelBuilder.Entity<Student>().MapToStoredProcedures();
+
+            modelBuilder.Entity<Teacher>().MapToStoredProcedures(
+                p => p.Insert(sp => sp.HasName("sp_InsertTeacher").Parameter(pm => pm.Name, "name").Result(rs => rs.TeacherId, "id"))
+                .Update(sp => sp.HasName("sp_UpdateTeacher").Parameter(pm => pm.Name, "name"))
+                .Delete(sp => sp.HasName("sp_DeleteTeacher").Parameter(pm => pm.Name, "name"))
+                );
+            //---------------------------------------------------------------------
 
 
 
