@@ -27,6 +27,7 @@ namespace ProjectSample.EF.Entities
         public DbSet<Course> Courses { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
 
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             ////modelBuilder.HasDefaultSchema("admin");
