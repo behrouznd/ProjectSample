@@ -21,8 +21,19 @@ namespace ConsoleAppCore.Entities
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //--Shadow Property in Entity Framework Core--
             modelBuilder.Entity<Student>().Property<DateTime>("CreatedDate");
             modelBuilder.Entity<Student>().Property<DateTime>("UpdatedDate");
+            //----
+
+            //--Configuring Shadow Properties on All Entities --
+            var allEntities = modelBuilder.Model.GetEntityTypes();
+            foreach (var entity in allEntities)
+            {
+                entity.AddProperty("CreatedDate", typeof(DateTime));
+                entity.AddProperty("UpdateDate", typeof(DateTime));
+            }
+            //----
 
             base.OnModelCreating(modelBuilder);
         }
