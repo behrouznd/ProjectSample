@@ -144,7 +144,7 @@ namespace ProjectSample.EF.Entities
             modelBuilder.Properties().Where(p => p.PropertyType.Name == "String").Configure(p => p.HasMaxLength(50));
 
 
-
+            
             //modelBuilder.Entity<BankAccount>()
             //    .Map(m =>
             //    {
