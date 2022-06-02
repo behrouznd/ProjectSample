@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +10,14 @@ namespace ConsoleAppCore.Entities
 {
     public class SchoolContext : DbContext
     {
+        public static readonly ILoggerFactory consoleLoggerFactory
+            = new LoggerFactory(new[] {
+                  new ConsoleLoggerProvider((category, level) =>
+                    category == DbLoggerCategory.Database.Command.Name &&
+                    level == LogLevel.Information, true)
+                });
+
+
         public DbSet<Student> Students { get; set; }
         public DbSet<Course> Courses { get; set; }
 
