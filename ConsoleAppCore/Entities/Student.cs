@@ -8,5 +8,9 @@ namespace ConsoleAppCore.Entities
     {
         public int StudentId { get; set; }
         public string Name { get; set; }
+
+        public DateTime BirthDate { get; set; }
+
+        public string YearBirth { get; private set; }
     }
 }

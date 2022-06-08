@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ValueGeneration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 using System;
@@ -8,6 +9,9 @@ using System.Text;
 
 namespace ConsoleAppCore.Entities
 {
+
+
+
     public class SchoolContext : DbContext
     {
         //public static readonly ILoggerFactory consoleLoggerFactory
@@ -45,6 +49,17 @@ namespace ConsoleAppCore.Entities
             }
             //----
 
+            modelBuilder.HasDbFunction(() => DbFunction.MyFunction());
+            //----
+            modelBuilder.Entity<Student>().Property(c => c.YearBirth).HasComputedColumnSql("Datepart(yyyy,[BirthDate])");
+
+            //---------
+            modelBuilder.Entity<Student>().Property(c => c.BirthDate).HasValueGenerator(typeof(DateTimeValueGenerator));
+            modelBuilder.Entity<Student>().Property(c => c.BirthDate).HasDefaultValueSql("getdate()");
+
+            modelBuilder.HasSequence<int>("NewMySeq").HasMin(1000).IncrementsBy(5).IsCyclic(true);
+            modelBuilder.Entity<Student>().Property(c => c.StudentId).HasDefaultValueSql("Next value for NewMySeq");
+
             base.OnModelCreating(modelBuilder);
         }
 
@@ -64,6 +79,26 @@ namespace ConsoleAppCore.Entities
                 }
             }
             return base.SaveChanges();
+        }
+    }
+
+
+    public static class DbFunction
+    {
+        public static int MyFunction()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+
+    public class DateTimeValueGenerator : ValueGenerator<DateTime>
+    {
+        public override bool GeneratesTemporaryValues => false;
+
+        public override DateTime Next( Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry entry)
+        {
+            return DateTime.Now.AddYears(-10);
         }
     }
 }

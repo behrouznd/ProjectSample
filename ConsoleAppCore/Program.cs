@@ -1,5 +1,6 @@
 ﻿using ConsoleAppCore.Entities;
 using System;
+using System.Linq;
 
 namespace ConsoleAppCore
 {
@@ -30,6 +31,9 @@ namespace ConsoleAppCore
                    }
                });
                 //----
+
+
+                var aaa=  context.Students.Where(x => x.StudentId == DbFunction.MyFunction()).ToList();
             }
              
 
