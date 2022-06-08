@@ -59,6 +59,8 @@ namespace ConsoleAppCore.Entities
 
             modelBuilder.HasSequence<int>("NewMySeq").HasMin(1000).IncrementsBy(5).IsCyclic(true);
             modelBuilder.Entity<Student>().Property(c => c.StudentId).HasDefaultValueSql("Next value for NewMySeq");
+            //----
+            modelBuilder.Entity<Student>().Property(c => c.Name).IsConcurrencyToken();
 
             base.OnModelCreating(modelBuilder);
         }
