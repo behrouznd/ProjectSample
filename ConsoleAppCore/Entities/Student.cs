@@ -5,7 +5,15 @@ using System.Text;
 
 namespace ConsoleAppCore.Entities
 {
-    public class Student
+    public interface IAuditable
+    {
+        int UserIdAdded { get; set; }
+        DateTime DatetimeAdded { get; set; }
+
+    }
+
+
+    public class Student : IAuditable
     {
         public int StudentId { get; set; }
 

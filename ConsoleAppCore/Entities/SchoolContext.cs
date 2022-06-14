@@ -80,6 +80,21 @@ namespace ConsoleAppCore.Entities
                     entityEntry.Property("CreatedDate").CurrentValue = DateTime.Now;
                 }
             }
+            //------
+            var entities2 = ChangeTracker
+                .Entries()
+                .Where(c => typeof(IAuditable).IsAssignableFrom(c.Entity.GetType()));
+            foreach (var entityEntry in entities2)
+            {
+                var temp = entityEntry.Entity as IAuditable;
+                if (entityEntry.State == EntityState.Added)
+                {
+                    temp.UserIdAdded = 1;
+                    temp.DatetimeAdded = DateTime.Now;
+                }
+            }
+
+
             return base.SaveChanges();
         }
     }
