@@ -61,6 +61,13 @@ namespace ConsoleAppCore.Entities
             modelBuilder.Entity<Student>().Property(c => c.StudentId).HasDefaultValueSql("Next value for NewMySeq");
             //----
             modelBuilder.Entity<Student>().Property(c => c.Name).IsConcurrencyToken();
+            //----
+            var auditableEntities = modelBuilder.Model.GetEntityTypes().Where(c => typeof(IAuditable02).IsAssignableFrom(c.ClrType));
+            foreach (var item in auditableEntities)
+            {
+                modelBuilder.Entity(item.ClrType).Property<int>("InsertBy");
+                modelBuilder.Entity(item.ClrType).Property<DateTime>("InsertDate");
+            }
 
             base.OnModelCreating(modelBuilder);
         }
